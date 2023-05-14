@@ -21,4 +21,11 @@ public class EspacioFisico {
     private String descripcion;
     private int capacidad;
     private boolean habilitado;
+
+    public EspacioFisico(String nombre, String descripcion, int capacidad, boolean habilitado) {
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.capacidad = capacidad;
+        this.habilitado = habilitado;
+    }
 }
