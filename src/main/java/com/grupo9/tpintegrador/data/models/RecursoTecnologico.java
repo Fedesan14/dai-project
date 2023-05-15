@@ -15,8 +15,14 @@ import java.util.UUID;
 @Getter
 @Setter
 public class RecursoTecnologico {
+
     @Id
     private UUID id = UUID.randomUUID();
     private String nombre;
     private String descripcion;
+
+    public RecursoTecnologico(String nombre, String descripcion) {
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+    }
 }
