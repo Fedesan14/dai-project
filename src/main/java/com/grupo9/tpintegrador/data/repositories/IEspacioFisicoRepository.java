@@ -4,8 +4,10 @@ import com.grupo9.tpintegrador.data.models.EspacioFisico;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
 public interface IEspacioFisicoRepository extends JpaRepository<EspacioFisico, UUID> {
+    Optional<EspacioFisico> findById(String id);
 }
