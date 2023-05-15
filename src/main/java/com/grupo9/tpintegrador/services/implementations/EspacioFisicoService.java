@@ -70,4 +70,22 @@ public class EspacioFisicoService implements IEspacioFisicoService {
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND,"El espacio físico con el id: "+id+" no fue encontrado.")
         );
     }
+
+    @Override
+    public void addRecurso(String espacioId, String recursoId) {
+        RecursoTecnologico recursoTecnologico = recursoTecnologicoService.getRecursoTecnologico(recursoId);
+        EspacioFisico espacioFisico = getEspacioFisico(espacioId);
+
+        espacioFisico.getRecursos().add(recursoTecnologico);
+        espacioFisicoRepository.save(espacioFisico);
+    }
+
+    @Override
+    public void removeRecurso(String espacioId, String recursoId) {
+        RecursoTecnologico recursoTecnologico = recursoTecnologicoService.getRecursoTecnologico(recursoId);
+        EspacioFisico espacioFisico = getEspacioFisico(espacioId);
+
+        espacioFisico.getRecursos().remove(recursoTecnologico);
+        espacioFisicoRepository.save(espacioFisico);
+    }
 }

@@ -16,5 +16,6 @@ public interface IEspacioFisicoService {
 
     EspacioFisico getEspacioFisico(String id);
 
-
+    void addRecurso(String espacioId, String recursoId);
+    void removeRecurso(String espacioId, String recursoId);
 }

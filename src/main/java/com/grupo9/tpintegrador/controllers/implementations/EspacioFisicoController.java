@@ -39,4 +39,14 @@ public class EspacioFisicoController implements IEspacioFisicoController {
     public EspacioFisico updateEspacioFisico(EspacioFisico espacioFisico, String id) {
         return espacioFisicoService.updateEspacioFisico(espacioFisico, id);
     }
+
+    @Override
+    public void addRecurso(String espacioId, String recursoId) {
+        espacioFisicoService.addRecurso(espacioId, recursoId);
+    }
+
+    @Override
+    public void removeRecurso(String espacioId, String recursoId) {
+        espacioFisicoService.removeRecurso(espacioId, recursoId);
+    }
 }
