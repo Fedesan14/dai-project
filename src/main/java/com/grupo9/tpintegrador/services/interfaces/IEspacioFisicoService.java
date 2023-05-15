@@ -1,11 +1,12 @@
 package com.grupo9.tpintegrador.services.interfaces;
 
+import com.grupo9.tpintegrador.controllers.requests.espacios.SaveEspacioFisicoRequest;
 import com.grupo9.tpintegrador.data.models.EspacioFisico;
 
 import java.util.List;
 
 public interface IEspacioFisicoService {
-    EspacioFisico saveEspacioFisico(EspacioFisico espacioFisico);
+    EspacioFisico saveEspacioFisico(SaveEspacioFisicoRequest request);
 
     List<EspacioFisico> getEspaciosFisicos();
 

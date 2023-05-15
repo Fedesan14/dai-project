@@ -1,5 +1,6 @@
 package com.grupo9.tpintegrador.controllers.interfaces;
 
+import com.grupo9.tpintegrador.controllers.requests.espacios.SaveEspacioFisicoRequest;
 import com.grupo9.tpintegrador.data.models.EspacioFisico;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +14,7 @@ public interface IEspacioFisicoController {
 
     @PostMapping
     @ResponseStatus(CREATED)
-    EspacioFisico saveEspacioFisico(@RequestBody EspacioFisico espacioFisico);
+    EspacioFisico saveEspacioFisico(@RequestBody SaveEspacioFisicoRequest request);
 
     @GetMapping
     @ResponseStatus(OK)

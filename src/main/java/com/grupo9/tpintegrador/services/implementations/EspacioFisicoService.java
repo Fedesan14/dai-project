@@ -1,8 +1,11 @@
 package com.grupo9.tpintegrador.services.implementations;
 
+import com.grupo9.tpintegrador.controllers.requests.espacios.SaveEspacioFisicoRequest;
 import com.grupo9.tpintegrador.data.models.EspacioFisico;
+import com.grupo9.tpintegrador.data.models.RecursoTecnologico;
 import com.grupo9.tpintegrador.data.repositories.IEspacioFisicoRepository;
 import com.grupo9.tpintegrador.services.interfaces.IEspacioFisicoService;
+import com.grupo9.tpintegrador.services.interfaces.IRecursoTecnologicoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -10,19 +13,30 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class EspacioFisicoService implements IEspacioFisicoService {
     @Autowired
     IEspacioFisicoRepository espacioFisicoRepository;
+    @Autowired
+    IRecursoTecnologicoService recursoTecnologicoService;
+
+
     @Override
-    public EspacioFisico saveEspacioFisico(EspacioFisico espacioFisico) {
+    public EspacioFisico saveEspacioFisico(SaveEspacioFisicoRequest request) {
+
+        List<RecursoTecnologico> recursos = request.getRecursosId().stream().map(
+                recursoId -> recursoTecnologicoService.getRecursoTecnologico(recursoId)
+        ).collect(Collectors.toList());
+
         return espacioFisicoRepository.save(
                 new EspacioFisico(
-                    espacioFisico.getNombre(),
-                    espacioFisico.getDescripcion(),
-                    espacioFisico.getCapacidad(),
-                    espacioFisico.isHabilitado()
+                        request.getNombre(),
+                        request.getDescripcion(),
+                        request.getCapacidad(),
+                        request.isHabilitado(),
+                        recursos
                 )
         );
     }
