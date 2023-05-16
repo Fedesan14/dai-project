@@ -32,4 +32,11 @@ public interface IEspacioFisicoController {
     @ResponseStatus(OK)
     EspacioFisico updateEspacioFisico(@RequestBody EspacioFisico espacioFisico, @PathVariable String id);
 
+    @PostMapping("/{espacioId}/{recursoId}")
+    @ResponseStatus(OK)
+    void addRecurso(@PathVariable String espacioId, @PathVariable String recursoId);
+
+    @DeleteMapping("/{espacioId}/{recursoId}")
+    @ResponseStatus(OK)
+    void removeRecurso(@PathVariable String espacioId, @PathVariable String recursoId);
 }
