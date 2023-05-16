@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -53,5 +54,10 @@ public class RecursoTecnologicoService implements IRecursoTecnologicoService {
         return recursoTecnologicoRepository.findById(UUID.fromString(id)).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND,"El recurso tecnologico con el id: "+id+" no fue encontrado.")
         );
+    }
+
+    @Override
+    public Iterable<RecursoTecnologico> getFiltroNombre(String nombre) {
+        return recursoTecnologicoRepository.findByNombreIgnoreCaseContains(nombre);
     }
 }

@@ -10,5 +10,5 @@ import java.util.UUID;
 
 @Repository
 public interface IRecursoTecnologicoRepository extends JpaRepository<RecursoTecnologico, UUID> {
-    Optional<RecursoTecnologico> findById(String id);
+    Iterable<RecursoTecnologico> findByNombreIgnoreCaseContains(String nombre);
 }
