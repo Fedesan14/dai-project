@@ -7,6 +7,9 @@ import com.grupo9.tpintegrador.data.repositories.IEspacioFisicoRepository;
 import com.grupo9.tpintegrador.services.interfaces.IEspacioFisicoService;
 import com.grupo9.tpintegrador.services.interfaces.IRecursoTecnologicoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -87,5 +90,23 @@ public class EspacioFisicoService implements IEspacioFisicoService {
 
         espacioFisico.getRecursos().remove(recursoTecnologico);
         espacioFisicoRepository.save(espacioFisico);
+    }
+
+    @Override
+    public Page<EspacioFisico> getEspaciosFisicosByNombreAndCapacidad(String nombre, int capacidad, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return espacioFisicoRepository.findByNombreIgnoreCaseContainsAndCapacidad(nombre, capacidad, pageable);
+    }
+
+    @Override
+    public Page<EspacioFisico> getEspaciosFisicosByNombre(String nombre, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return espacioFisicoRepository.findByNombreIgnoreCaseContains(nombre, pageable);
+    }
+
+    @Override
+    public Page<EspacioFisico> getEspaciosFisicosByCapacidad(int capacidad, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return espacioFisicoRepository.findByCapacidad(capacidad, pageable);
     }
 }
