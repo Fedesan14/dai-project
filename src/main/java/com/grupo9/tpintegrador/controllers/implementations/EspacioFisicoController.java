@@ -5,6 +5,7 @@ import com.grupo9.tpintegrador.controllers.requests.espacios.SaveEspacioFisicoRe
 import com.grupo9.tpintegrador.data.models.EspacioFisico;
 import com.grupo9.tpintegrador.services.interfaces.IEspacioFisicoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,6 +24,21 @@ public class EspacioFisicoController implements IEspacioFisicoController {
     @Override
     public List<EspacioFisico> getEspaciosFisicos() {
         return espacioFisicoService.getEspaciosFisicos();
+    }
+
+    @Override
+    public Page<EspacioFisico> getEspaciosFisicosByNombreAndCapacidad(String nombre, int capacidad, int page, int size) {
+        return espacioFisicoService.getEspaciosFisicosByNombreAndCapacidad(nombre, capacidad, page, size);
+    }
+
+    @Override
+    public Page<EspacioFisico> getEspaciosFisicosByNombre(String nombre, int page, int size) {
+        return espacioFisicoService.getEspaciosFisicosByNombre(nombre, page, size);
+    }
+
+    @Override
+    public Page<EspacioFisico> getEspaciosFisicosByCapacidad(int capacidad, int page, int size) {
+        return espacioFisicoService.getEspaciosFisicosByCapacidad(capacidad, page, size);
     }
 
     @Override

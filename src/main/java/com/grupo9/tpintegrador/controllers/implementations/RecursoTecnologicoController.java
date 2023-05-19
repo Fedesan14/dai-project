@@ -30,6 +30,11 @@ public class RecursoTecnologicoController implements IRecursoTecnologicoControll
     }
 
     @Override
+    public Iterable<RecursoTecnologico> getFiltroNombre(String nombre) {
+        return this.recursoTecnologicoService.getFiltroNombre(nombre);
+    }
+
+    @Override
     public String deleteRecursoTecnologico(String id) {
         return recursoTecnologicoService.deleteRecursoTecnologico(id);
     }

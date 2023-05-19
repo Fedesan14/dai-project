@@ -16,4 +16,5 @@ public interface IRecursoTecnologicoService {
     RecursoTecnologico getRecursoTecnologico(String id);
 
 
+    Iterable<RecursoTecnologico> getFiltroNombre(String nombre);
 }

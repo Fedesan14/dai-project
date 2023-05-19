@@ -23,6 +23,10 @@ public interface IRecursoTecnologicoController {
     @ResponseStatus(OK)
     RecursoTecnologico getRecursoTecnologico(@PathVariable String id);
 
+    @GetMapping(value = "/search",params = {"nombre"})
+    Iterable<RecursoTecnologico> getFiltroNombre(@RequestParam(name = "nombre", required = true)
+    String nombre);
+
     @DeleteMapping("/{id}")
     @ResponseStatus(OK)
     String deleteRecursoTecnologico(@PathVariable String id);
