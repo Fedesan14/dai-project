@@ -23,8 +23,8 @@ public class EspacioFisicoController implements IEspacioFisicoController {
     }
 
     @Override
-    public List<EspacioFisico> getEspaciosFisicos() {
-        return espacioFisicoService.getEspaciosFisicos();
+    public Page<EspacioFisico> getEspaciosFisicos(int page, int size) {
+        return espacioFisicoService.getEspaciosFisicos(page, size);
     }
 
     @Override

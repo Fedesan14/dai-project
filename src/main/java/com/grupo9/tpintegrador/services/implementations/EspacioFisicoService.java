@@ -45,8 +45,9 @@ public class EspacioFisicoService implements IEspacioFisicoService {
     }
 
     @Override
-    public List<EspacioFisico> getEspaciosFisicos() {
-        return espacioFisicoRepository.findAll();
+    public Page<EspacioFisico> getEspaciosFisicos(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return espacioFisicoRepository.findAll(pageable);
     }
 
     @Override

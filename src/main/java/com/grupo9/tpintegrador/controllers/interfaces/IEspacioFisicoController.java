@@ -17,9 +17,10 @@ public interface IEspacioFisicoController {
     @ResponseStatus(CREATED)
     EspacioFisico saveEspacioFisico(@RequestBody SaveEspacioFisicoRequest request);
 
-    @GetMapping
+    @GetMapping(params = {"page","size"})
     @ResponseStatus(OK)
-    List<EspacioFisico> getEspaciosFisicos();
+    Page<EspacioFisico> getEspaciosFisicos(@RequestParam("page") int page,
+                                           @RequestParam("size") int size);
 
     @GetMapping(params = {"nombre","capacidad","page","size"})
     @ResponseStatus(OK)
