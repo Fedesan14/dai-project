@@ -1,19 +1,17 @@
 package com.grupo9.tpintegrador.services.interfaces;
 
-import com.grupo9.tpintegrador.controllers.requests.espacios.SaveEspacioFisicoRequest;
+import com.grupo9.tpintegrador.controllers.requests.espacios.EspacioFisicoRequest;
 import com.grupo9.tpintegrador.data.models.EspacioFisico;
 import org.springframework.data.domain.Page;
 
-import java.util.List;
-
 public interface IEspacioFisicoService {
-    EspacioFisico saveEspacioFisico(SaveEspacioFisicoRequest request);
+    EspacioFisico saveEspacioFisico(EspacioFisicoRequest request);
 
     Page<EspacioFisico> getEspaciosFisicos(int page, int size);
 
-    String deleteEspacioFisico(String id);
+    void deleteEspacioFisico(String id);
 
-    EspacioFisico updateEspacioFisico(EspacioFisico espacioFisico, String id);
+    EspacioFisico updateEspacioFisico(EspacioFisicoRequest request, String id);
 
     EspacioFisico getEspacioFisico(String id);
 

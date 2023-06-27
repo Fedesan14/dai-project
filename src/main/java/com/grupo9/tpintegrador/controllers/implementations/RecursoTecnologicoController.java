@@ -4,11 +4,13 @@ import com.grupo9.tpintegrador.controllers.interfaces.IRecursoTecnologicoControl
 import com.grupo9.tpintegrador.data.models.RecursoTecnologico;
 import com.grupo9.tpintegrador.services.interfaces.IRecursoTecnologicoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
+@CrossOrigin
 public class RecursoTecnologicoController implements IRecursoTecnologicoController {
 
     @Autowired

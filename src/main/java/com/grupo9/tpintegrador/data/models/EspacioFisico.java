@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.util.List;
 import java.util.UUID;
@@ -23,6 +24,8 @@ public class EspacioFisico {
     private String nombre;
     private String descripcion;
     private int capacidad;
+
+    @ColumnDefault(value= "1")
     private boolean habilitado;
     @ManyToMany
     private List<RecursoTecnologico> recursos;

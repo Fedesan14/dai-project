@@ -1,14 +1,12 @@
 package com.grupo9.tpintegrador.controllers.implementations;
 
 import com.grupo9.tpintegrador.controllers.interfaces.IEspacioFisicoController;
-import com.grupo9.tpintegrador.controllers.requests.espacios.SaveEspacioFisicoRequest;
+import com.grupo9.tpintegrador.controllers.requests.espacios.EspacioFisicoRequest;
 import com.grupo9.tpintegrador.data.models.EspacioFisico;
 import com.grupo9.tpintegrador.services.interfaces.IEspacioFisicoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController()
 @CrossOrigin
@@ -18,7 +16,7 @@ public class EspacioFisicoController implements IEspacioFisicoController {
     IEspacioFisicoService espacioFisicoService;
 
     @Override
-    public EspacioFisico saveEspacioFisico(SaveEspacioFisicoRequest request) {
+    public EspacioFisico saveEspacioFisico(EspacioFisicoRequest request) {
         return espacioFisicoService.saveEspacioFisico(request);
     }
 
@@ -48,13 +46,13 @@ public class EspacioFisicoController implements IEspacioFisicoController {
     }
 
     @Override
-    public String deleteEspacioFisico(String id) {
-        return espacioFisicoService.deleteEspacioFisico(id);
+    public void deleteEspacioFisico(String id) {
+        espacioFisicoService.deleteEspacioFisico(id);
     }
 
     @Override
-    public EspacioFisico updateEspacioFisico(EspacioFisico espacioFisico, String id) {
-        return espacioFisicoService.updateEspacioFisico(espacioFisico, id);
+    public EspacioFisico updateEspacioFisico(EspacioFisicoRequest request, String id) {
+        return espacioFisicoService.updateEspacioFisico(request, id);
     }
 
     @Override
