@@ -9,7 +9,7 @@ import java.util.List;
 public interface IEspacioFisicoService {
     EspacioFisico saveEspacioFisico(SaveEspacioFisicoRequest request);
 
-    List<EspacioFisico> getEspaciosFisicos();
+    Page<EspacioFisico> getEspaciosFisicos(int page, int size);
 
     String deleteEspacioFisico(String id);
 
