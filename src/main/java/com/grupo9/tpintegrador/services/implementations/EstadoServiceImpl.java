@@ -52,4 +52,10 @@ public class EstadoServiceImpl implements IEstadoService {
 
         estadoRepository.delete(stateToDeleted);
     }
+
+    @Override
+    public Estado getCreatedState() {
+        return estadoRepository.findByNombre("CREADO")
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "No existe el estado CREADO para la reserva."));
+    }
 }
