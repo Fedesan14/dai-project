@@ -12,5 +12,5 @@ public interface IEstadoService {
     List<Estado> getStates();
     Estado getStateById(@PathVariable String id);
     void deleteStateById(@PathVariable String id);
-
+    Estado getCreatedState();
 }

@@ -28,7 +28,7 @@ public class Cliente {
     @Column(nullable = false)
     private String email;
     private String nroTelefono;
-    @OneToMany
+    @OneToMany(mappedBy = "cliente")
     private List<Reserva> reservas = new ArrayList<>();
 
     public Cliente(String nombre, String apellido, String dni, String email, String nroTelefono) {
