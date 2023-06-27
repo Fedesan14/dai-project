@@ -1,14 +1,19 @@
 package com.grupo9.tpintegrador.data.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class Reserva {
 
     @Id
@@ -23,5 +28,16 @@ public class Reserva {
     private Estado estado;
     @ManyToOne
     private EspacioFisico espacioFisico;
+    @ManyToOne
+    @JoinColumn(name = "cliente_id")
+    private Cliente cliente;
 
+    public Reserva(LocalDate fechaReserva, LocalDate fechaCreacion, String motivoReserva, Estado estado, EspacioFisico espacioFisico, Cliente cliente) {
+        this.fechaReserva = fechaReserva;
+        this.fechaCreacion = fechaCreacion;
+        this.motivoReserva = motivoReserva;
+        this.estado = estado;
+        this.espacioFisico = espacioFisico;
+        this.cliente = cliente;
+    }
 }
