@@ -5,6 +5,8 @@ import com.grupo9.tpintegrador.data.models.Cliente;
 import com.grupo9.tpintegrador.data.repositories.IClienteRepository;
 import com.grupo9.tpintegrador.services.interfaces.IClientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -35,8 +37,8 @@ public class ClienteServiceImpl implements IClientService {
     }
 
     @Override
-    public List<Cliente> getClients() {
-        return clienteRepository.findAll();
+    public Page<Cliente> getClients(String dni, String correo, Pageable pageable) {
+        return clienteRepository.findByDniAndEmail(dni, correo, pageable);
     }
 
     @Override

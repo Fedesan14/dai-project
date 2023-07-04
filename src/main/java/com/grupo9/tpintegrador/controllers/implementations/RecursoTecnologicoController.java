@@ -4,6 +4,8 @@ import com.grupo9.tpintegrador.controllers.interfaces.IRecursoTecnologicoControl
 import com.grupo9.tpintegrador.data.models.RecursoTecnologico;
 import com.grupo9.tpintegrador.services.interfaces.IRecursoTecnologicoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,8 +24,11 @@ public class RecursoTecnologicoController implements IRecursoTecnologicoControll
     }
 
     @Override
-    public List<RecursoTecnologico> getRecursosTecnologicos() {
-        return recursoTecnologicoService.getRecursosTecnologicos();
+    public Page<RecursoTecnologico> getRecursosTecnologicos(
+            String nombre,
+            Pageable pageable
+    ) {
+        return recursoTecnologicoService.getRecursosTecnologicos(nombre, pageable);
     }
 
     @Override

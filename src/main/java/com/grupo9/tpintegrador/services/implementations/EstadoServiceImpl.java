@@ -5,6 +5,8 @@ import com.grupo9.tpintegrador.data.models.Estado;
 import com.grupo9.tpintegrador.data.repositories.IEstadoRepository;
 import com.grupo9.tpintegrador.services.interfaces.IEstadoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -35,9 +37,10 @@ public class EstadoServiceImpl implements IEstadoService {
     }
 
     @Override
-    public List<Estado> getStates() {
-        return estadoRepository.findAll();
+    public Page<Estado> getStates(String nombre, Pageable pageable) {
+        return estadoRepository.findAllByNombre(nombre, pageable);
     }
+
 
     @Override
     public Estado getStateById(String id) {

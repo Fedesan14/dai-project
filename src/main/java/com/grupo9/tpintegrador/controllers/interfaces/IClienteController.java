@@ -2,9 +2,10 @@ package com.grupo9.tpintegrador.controllers.interfaces;
 
 import com.grupo9.tpintegrador.controllers.requests.clients.SaveClientRequest;
 import com.grupo9.tpintegrador.data.models.Cliente;
+import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
@@ -18,7 +19,12 @@ public interface IClienteController {
 
     @GetMapping
     @ResponseStatus(OK)
-    List<Cliente> getClients();
+
+    Page<Cliente> getClients(
+            @RequestParam(required = false) String dni,
+            @RequestParam(required = false) String correo,
+            @ParameterObject Pageable pageable
+    );
 
     @GetMapping("/{id}")
     @ResponseStatus(OK)

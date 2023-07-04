@@ -1,6 +1,9 @@
 package com.grupo9.tpintegrador.controllers.interfaces;
 
 import com.grupo9.tpintegrador.data.models.RecursoTecnologico;
+import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,7 +20,10 @@ public interface IRecursoTecnologicoController {
 
     @GetMapping
     @ResponseStatus(OK)
-    List<RecursoTecnologico> getRecursosTecnologicos();
+    Page<RecursoTecnologico> getRecursosTecnologicos(
+        @RequestParam(required = false) String nombre,
+        @ParameterObject Pageable pageable
+    );
 
     @GetMapping("/{id}")
     @ResponseStatus(OK)
