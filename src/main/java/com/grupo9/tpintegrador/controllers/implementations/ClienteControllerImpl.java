@@ -5,9 +5,9 @@ import com.grupo9.tpintegrador.controllers.requests.clients.SaveClientRequest;
 import com.grupo9.tpintegrador.data.models.Cliente;
 import com.grupo9.tpintegrador.services.interfaces.IClientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 public class ClienteControllerImpl implements IClienteController {
@@ -21,8 +21,8 @@ public class ClienteControllerImpl implements IClienteController {
     }
 
     @Override
-    public List<Cliente> getClients() {
-        return clientService.getClients();
+    public Page<Cliente> getClients(String dni, String correo, Pageable pageable) {
+        return clientService.getClients(dni, correo, pageable);
     }
 
     @Override
