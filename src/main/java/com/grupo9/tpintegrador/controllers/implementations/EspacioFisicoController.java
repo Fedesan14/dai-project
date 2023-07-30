@@ -21,23 +21,24 @@ public class EspacioFisicoController implements IEspacioFisicoController {
     }
 
     @Override
-    public Page<EspacioFisico> getEspaciosFisicos(int page, int size) {
-        return espacioFisicoService.getEspaciosFisicos(page, size);
+    public Page<EspacioFisico> getEspaciosFisicos(int page, int size, String sort, String order) {
+        return espacioFisicoService.getEspaciosFisicos(page, size, sort, order);
     }
 
     @Override
-    public Page<EspacioFisico> getEspaciosFisicosByNombreAndCapacidad(String nombre, int capacidad, int page, int size) {
-        return espacioFisicoService.getEspaciosFisicosByNombreAndCapacidad(nombre, capacidad, page, size);
+    public Page<EspacioFisico> getEspaciosFisicosByNombreAndCapacidad(String nombre, int capacidad, int page, int size,
+                                                                      String sort, String order) {
+        return espacioFisicoService.getEspaciosFisicosByNombreAndCapacidad(nombre, capacidad, page, size, sort, order);
     }
 
     @Override
-    public Page<EspacioFisico> getEspaciosFisicosByNombre(String nombre, int page, int size) {
-        return espacioFisicoService.getEspaciosFisicosByNombre(nombre, page, size);
+    public Page<EspacioFisico> getEspaciosFisicosByNombre(String nombre, int page, int size, String sort, String order) {
+        return espacioFisicoService.getEspaciosFisicosByNombre(nombre, page, size, sort, order);
     }
 
     @Override
-    public Page<EspacioFisico> getEspaciosFisicosByCapacidad(int capacidad, int page, int size) {
-        return espacioFisicoService.getEspaciosFisicosByCapacidad(capacidad, page, size);
+    public Page<EspacioFisico> getEspaciosFisicosByCapacidad(int capacidad, int page, int size, String sort, String order) {
+        return espacioFisicoService.getEspaciosFisicosByCapacidad(capacidad, page, size, sort, order);
     }
 
     @Override

@@ -15,27 +15,35 @@ public interface IEspacioFisicoController {
     @ResponseStatus(CREATED)
     EspacioFisico saveEspacioFisico(@RequestBody EspacioFisicoRequest request);
 
-    @GetMapping(params = {"page","size"})
+    @GetMapping(params = {"page","size","sort","order"})
     @ResponseStatus(OK)
     Page<EspacioFisico> getEspaciosFisicos(@RequestParam("page") int page,
-                                           @RequestParam("size") int size);
+                                           @RequestParam("size") int size,
+                                           @RequestParam("sort") String sort,
+                                           @RequestParam("order") String order);
 
-    @GetMapping(params = {"nombre","capacidad","page","size"})
+    @GetMapping(params = {"nombre","capacidad","page","size","sort","order"})
     @ResponseStatus(OK)
     Page<EspacioFisico> getEspaciosFisicosByNombreAndCapacidad(@RequestParam("nombre") String nombre,
                                                                @RequestParam("capacidad") int capacidad,
                                                                @RequestParam("page") int page,
-                                                               @RequestParam("size") int size);
-    @GetMapping(params = {"nombre","page","size"})
+                                                               @RequestParam("size") int size,
+                                                               @RequestParam("sort") String sort,
+                                                               @RequestParam("order") String order);
+    @GetMapping(params = {"nombre","page","size","sort","order"})
     @ResponseStatus(OK)
     Page<EspacioFisico> getEspaciosFisicosByNombre(@RequestParam("nombre") String nombre,
                                                                @RequestParam("page") int page,
-                                                               @RequestParam("size") int size);
-    @GetMapping(params = {"capacidad","page","size"})
+                                                               @RequestParam("size") int size,
+                                                               @RequestParam("sort") String sort,
+                                                               @RequestParam("order") String order);
+    @GetMapping(params = {"capacidad","page","size","sort","order"})
     @ResponseStatus(OK)
     Page<EspacioFisico> getEspaciosFisicosByCapacidad(@RequestParam("capacidad") int capacidad,
                                                                @RequestParam("page") int page,
-                                                               @RequestParam("size") int size);
+                                                               @RequestParam("size") int size,
+                                                               @RequestParam("sort") String sort,
+                                                               @RequestParam("order") String order);
     @GetMapping("/{id}")
     @ResponseStatus(OK)
     EspacioFisico getEspacioFisico(@PathVariable String id);

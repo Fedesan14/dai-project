@@ -7,7 +7,7 @@ import org.springframework.data.domain.Page;
 public interface IEspacioFisicoService {
     EspacioFisico saveEspacioFisico(EspacioFisicoRequest request);
 
-    Page<EspacioFisico> getEspaciosFisicos(int page, int size);
+    Page<EspacioFisico> getEspaciosFisicos(int page, int size, String sort, String order);
 
     void deleteEspacioFisico(String id);
 
@@ -18,7 +18,7 @@ public interface IEspacioFisicoService {
     void addRecurso(String espacioId, String recursoId);
     void removeRecurso(String espacioId, String recursoId);
 
-    Page<EspacioFisico> getEspaciosFisicosByNombreAndCapacidad(String nombre, int capacidad, int page, int size);
-    Page<EspacioFisico> getEspaciosFisicosByNombre(String nombre, int page, int size);
-    Page<EspacioFisico> getEspaciosFisicosByCapacidad(int capacidad, int page, int size);
+    Page<EspacioFisico> getEspaciosFisicosByNombreAndCapacidad(String nombre, int capacidad, int page, int size, String sort, String order);
+    Page<EspacioFisico> getEspaciosFisicosByNombre(String nombre, int page, int size, String sort, String order);
+    Page<EspacioFisico> getEspaciosFisicosByCapacidad(int capacidad, int page, int size, String sort, String order);
 }
