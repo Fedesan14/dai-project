@@ -1,15 +1,17 @@
 package com.grupo9.tpintegrador.services.interfaces;
 
 import com.grupo9.tpintegrador.data.models.RecursoTecnologico;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface IRecursoTecnologicoService {
     RecursoTecnologico saveRecursoTecnologico(RecursoTecnologico recursoTecnologico);
 
-    List<RecursoTecnologico> getRecursosTecnologicos();
+    Page<RecursoTecnologico> getRecursosTecnologicos(String nombre, Pageable pageable);
 
-    String deleteRecursoTecnologico(String id);
+    void deleteRecursoTecnologico(String id);
 
     RecursoTecnologico updateRecursoTecnologico(RecursoTecnologico recursoTecnologico, String id);
 

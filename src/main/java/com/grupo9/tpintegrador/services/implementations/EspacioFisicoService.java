@@ -1,19 +1,22 @@
 package com.grupo9.tpintegrador.services.implementations;
 
-import com.grupo9.tpintegrador.controllers.requests.espacios.SaveEspacioFisicoRequest;
+import com.grupo9.tpintegrador.controllers.requests.espacios.EspacioFisicoRequest;
 import com.grupo9.tpintegrador.data.models.EspacioFisico;
 import com.grupo9.tpintegrador.data.models.RecursoTecnologico;
 import com.grupo9.tpintegrador.data.repositories.IEspacioFisicoRepository;
+import com.grupo9.tpintegrador.data.repositories.IRecursoTecnologicoRepository;
 import com.grupo9.tpintegrador.services.interfaces.IEspacioFisicoService;
 import com.grupo9.tpintegrador.services.interfaces.IRecursoTecnologicoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -24,14 +27,20 @@ public class EspacioFisicoService implements IEspacioFisicoService {
     IEspacioFisicoRepository espacioFisicoRepository;
     @Autowired
     IRecursoTecnologicoService recursoTecnologicoService;
+    @Autowired
+    private IRecursoTecnologicoRepository iRecursoTecnologicoRepository;
 
 
     @Override
-    public EspacioFisico saveEspacioFisico(SaveEspacioFisicoRequest request) {
+    public EspacioFisico saveEspacioFisico(EspacioFisicoRequest request) {
 
-        List<RecursoTecnologico> recursos = request.getRecursosId().stream().map(
-                recursoId -> recursoTecnologicoService.getRecursoTecnologico(recursoId)
-        ).collect(Collectors.toList());
+        List<RecursoTecnologico> recursos = new ArrayList<>();
+
+        if(!request.getRecursosId().isEmpty()){
+            recursos = request.getRecursosId().stream().map(
+                    recursoId -> recursoTecnologicoService.getRecursoTecnologico(recursoId)
+            ).collect(Collectors.toList());
+        }
 
         return espacioFisicoRepository.save(
                 new EspacioFisico(
@@ -45,26 +54,34 @@ public class EspacioFisicoService implements IEspacioFisicoService {
     }
 
     @Override
-    public Page<EspacioFisico> getEspaciosFisicos(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
+    public Page<EspacioFisico> getEspaciosFisicos(int page, int size,String sort, String order) {
+        Sort sortObj = Sort.by(order.equals("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, sort);
+        Pageable pageable = PageRequest.of(page, size, sortObj);
         return espacioFisicoRepository.findAll(pageable);
     }
 
     @Override
-    public String deleteEspacioFisico(String id) {
+    public void deleteEspacioFisico(String id) {
         EspacioFisico espacioFisico = getEspacioFisico(id);
         espacioFisicoRepository.delete(espacioFisico);
-        return id;
     }
 
     @Override
-    public EspacioFisico updateEspacioFisico(EspacioFisico espacioFisico, String id) {
+    public EspacioFisico updateEspacioFisico(EspacioFisicoRequest request, String id) {
         EspacioFisico foundEspacioFisico = getEspacioFisico(id);
+        List<RecursoTecnologico> recursos = new ArrayList<>();
 
-        foundEspacioFisico.setNombre(espacioFisico.getNombre());
-        foundEspacioFisico.setCapacidad(espacioFisico.getCapacidad());
-        foundEspacioFisico.setDescripcion(espacioFisico.getDescripcion());
-        foundEspacioFisico.setHabilitado(espacioFisico.isHabilitado());
+        if(!request.getRecursosId().isEmpty()){
+            recursos = request.getRecursosId().stream().map(
+                    recursoId -> recursoTecnologicoService.getRecursoTecnologico(recursoId)
+            ).collect(Collectors.toList());
+        }
+        foundEspacioFisico.setNombre(request.getNombre());
+        foundEspacioFisico.setCapacidad(request.getCapacidad());
+        foundEspacioFisico.setDescripcion(request.getDescripcion());
+        foundEspacioFisico.setHabilitado(request.isHabilitado());
+        foundEspacioFisico.setRecursos(new ArrayList<>());
+        foundEspacioFisico.setRecursos(recursos);
         return espacioFisicoRepository.save(foundEspacioFisico);
     }
 
@@ -94,20 +111,25 @@ public class EspacioFisicoService implements IEspacioFisicoService {
     }
 
     @Override
-    public Page<EspacioFisico> getEspaciosFisicosByNombreAndCapacidad(String nombre, int capacidad, int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
+    public Page<EspacioFisico> getEspaciosFisicosByNombreAndCapacidad(String nombre, int capacidad, int page, int size,
+                                                                      String sort, String order) {
+
+        Sort sortObj = Sort.by(order.equals("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, sort);
+        Pageable pageable = PageRequest.of(page, size, sortObj);
         return espacioFisicoRepository.findByNombreIgnoreCaseContainsAndCapacidad(nombre, capacidad, pageable);
     }
 
     @Override
-    public Page<EspacioFisico> getEspaciosFisicosByNombre(String nombre, int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
+    public Page<EspacioFisico> getEspaciosFisicosByNombre(String nombre, int page, int size, String sort, String order) {
+        Sort sortObj = Sort.by(order.equals("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, sort);
+        Pageable pageable = PageRequest.of(page, size, sortObj);
         return espacioFisicoRepository.findByNombreIgnoreCaseContains(nombre, pageable);
     }
 
     @Override
-    public Page<EspacioFisico> getEspaciosFisicosByCapacidad(int capacidad, int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
+    public Page<EspacioFisico> getEspaciosFisicosByCapacidad(int capacidad, int page, int size, String sort, String order) {
+        Sort sortObj = Sort.by(order.equals("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, sort);
+        Pageable pageable = PageRequest.of(page, size, sortObj);
         return espacioFisicoRepository.findByCapacidad(capacidad, pageable);
     }
 }

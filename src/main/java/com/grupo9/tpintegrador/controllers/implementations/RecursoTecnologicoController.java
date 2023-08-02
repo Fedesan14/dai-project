@@ -4,11 +4,15 @@ import com.grupo9.tpintegrador.controllers.interfaces.IRecursoTecnologicoControl
 import com.grupo9.tpintegrador.data.models.RecursoTecnologico;
 import com.grupo9.tpintegrador.services.interfaces.IRecursoTecnologicoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
+@CrossOrigin
 public class RecursoTecnologicoController implements IRecursoTecnologicoController {
 
     @Autowired
@@ -20,8 +24,12 @@ public class RecursoTecnologicoController implements IRecursoTecnologicoControll
     }
 
     @Override
-    public List<RecursoTecnologico> getRecursosTecnologicos() {
-        return recursoTecnologicoService.getRecursosTecnologicos();
+    public Page<RecursoTecnologico> getRecursosTecnologicos(
+            String nombre,
+            Pageable pageable
+    ) {
+        System.out.println(pageable);
+        return recursoTecnologicoService.getRecursosTecnologicos(nombre, pageable);
     }
 
     @Override
@@ -35,8 +43,8 @@ public class RecursoTecnologicoController implements IRecursoTecnologicoControll
     }
 
     @Override
-    public String deleteRecursoTecnologico(String id) {
-        return recursoTecnologicoService.deleteRecursoTecnologico(id);
+    public void deleteRecursoTecnologico(String id) {
+        recursoTecnologicoService.deleteRecursoTecnologico(id);
     }
 
     @Override

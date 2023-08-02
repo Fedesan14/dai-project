@@ -4,12 +4,13 @@ import com.grupo9.tpintegrador.data.models.RecursoTecnologico;
 import com.grupo9.tpintegrador.data.repositories.IRecursoTecnologicoRepository;
 import com.grupo9.tpintegrador.services.interfaces.IRecursoTecnologicoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -29,15 +30,14 @@ public class RecursoTecnologicoService implements IRecursoTecnologicoService {
     }
 
     @Override
-    public List<RecursoTecnologico> getRecursosTecnologicos() {
-        return recursoTecnologicoRepository.findAll();
+    public Page<RecursoTecnologico> getRecursosTecnologicos(String nombre, Pageable pageable) {
+        return recursoTecnologicoRepository.findAllByNombre(nombre, pageable);
     }
 
     @Override
-    public String deleteRecursoTecnologico(String id) {
+    public void deleteRecursoTecnologico(String id) {
         RecursoTecnologico recursoTecnologico = getRecursoTecnologico(id);
         recursoTecnologicoRepository.delete(recursoTecnologico);
-        return id;
     }
 
     @Override

@@ -1,7 +1,5 @@
 package com.grupo9.tpintegrador.controllers.requests.espacios;
 
-import com.grupo9.tpintegrador.data.models.RecursoTecnologico;
-import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class SaveEspacioFisicoRequest {
+public class EspacioFisicoRequest {
     private String nombre;
     private String descripcion;
     private int capacidad;
