@@ -28,6 +28,7 @@ public class RecursoTecnologicoController implements IRecursoTecnologicoControll
             String nombre,
             Pageable pageable
     ) {
+        System.out.println(pageable);
         return recursoTecnologicoService.getRecursosTecnologicos(nombre, pageable);
     }
 
@@ -42,8 +43,8 @@ public class RecursoTecnologicoController implements IRecursoTecnologicoControll
     }
 
     @Override
-    public String deleteRecursoTecnologico(String id) {
-        return recursoTecnologicoService.deleteRecursoTecnologico(id);
+    public void deleteRecursoTecnologico(String id) {
+        recursoTecnologicoService.deleteRecursoTecnologico(id);
     }
 
     @Override

@@ -35,7 +35,7 @@ public interface IRecursoTecnologicoController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(OK)
-    String deleteRecursoTecnologico(@PathVariable String id);
+    void deleteRecursoTecnologico(@PathVariable String id);
 
     @PutMapping("/{id}")
     @ResponseStatus(OK)

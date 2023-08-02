@@ -35,10 +35,9 @@ public class RecursoTecnologicoService implements IRecursoTecnologicoService {
     }
 
     @Override
-    public String deleteRecursoTecnologico(String id) {
+    public void deleteRecursoTecnologico(String id) {
         RecursoTecnologico recursoTecnologico = getRecursoTecnologico(id);
         recursoTecnologicoRepository.delete(recursoTecnologico);
-        return id;
     }
 
     @Override

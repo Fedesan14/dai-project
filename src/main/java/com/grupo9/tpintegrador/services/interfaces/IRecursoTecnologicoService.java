@@ -11,7 +11,7 @@ public interface IRecursoTecnologicoService {
 
     Page<RecursoTecnologico> getRecursosTecnologicos(String nombre, Pageable pageable);
 
-    String deleteRecursoTecnologico(String id);
+    void deleteRecursoTecnologico(String id);
 
     RecursoTecnologico updateRecursoTecnologico(RecursoTecnologico recursoTecnologico, String id);
 
