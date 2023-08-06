@@ -1,6 +1,8 @@
 package com.grupo9.tpintegrador.services.implementations;
 
 import com.grupo9.tpintegrador.controllers.requests.reservas.CreateReservaRequest;
+import com.grupo9.tpintegrador.controllers.responses.clientes.ClienteDTO;
+import com.grupo9.tpintegrador.controllers.responses.reservas.ReservaDTO;
 import com.grupo9.tpintegrador.data.models.Reserva;
 import com.grupo9.tpintegrador.data.repositories.IReservaRepository;
 import com.grupo9.tpintegrador.services.interfaces.IClientService;
@@ -32,20 +34,28 @@ public class ReservaServiceImpl implements IReservaService {
 
 
     @Override
-    public Reserva createReserva(CreateReservaRequest request) {
+    public ReservaDTO createReserva(CreateReservaRequest request) {
 
-        reservaRepository.findByFechaReserva(request.getFechaReserva())
-                .ifPresent(reserva -> {
-                    throw new ResponseStatusException(BAD_REQUEST, "Ya existe una reserva para la fecha ingresada");
-                });
+        List<Reserva> reservas = reservaRepository.findAll();
 
-        return reservaRepository.save(new Reserva(
-                request.getFechaReserva(),
-                LocalDate.now(),
-                request.getMotivoReserva(),
-                estadoService.getCreatedState(),
-                espacioFisicoService.getEspacioFisico(request.getEspacioFisicoId()),
-                clientService.getClientById(request.getClienteId())
+        reservas.forEach(reserva -> {
+            if (coincideConOtraReserva(request, reserva)) {
+                throw new ResponseStatusException(BAD_REQUEST, "Ya existe una reserva para la fecha y horas ingresadas.");
+            }
+        });
+
+        return buildReservaDTO(
+                reservaRepository.save(new Reserva(
+                                request.getFechaHoraDesdeReserva(),
+                                request.getFechaHoraHastaReserva(),
+                                LocalDate.now(),
+                                request.getMotivoReserva(),
+                                estadoService.getCreatedState(),
+                                espacioFisicoService.getEspacioFisico(request.getEspacioFisicoId()),
+                                clientService.getClientById(request.getClienteId())
+
+                        )
+
         ));
     }
 
@@ -66,5 +76,29 @@ public class ReservaServiceImpl implements IReservaService {
                 .orElseThrow(() -> new ResponseStatusException(BAD_REQUEST, "No se encontró la reserva con el id " + id));
 
         reservaRepository.delete(reservaToDelete);
+    }
+
+    private static boolean coincideConOtraReserva(CreateReservaRequest request, Reserva reserva) {
+        return (request.getFechaHoraHastaReserva().isAfter(reserva.getFechaHoraDesdeReserva()) && request.getFechaHoraHastaReserva().isBefore(reserva.getFechaHoraHastaReserva())) ||
+                (request.getFechaHoraDesdeReserva().isAfter(reserva.getFechaHoraDesdeReserva()) && request.getFechaHoraDesdeReserva().isBefore(reserva.getFechaHoraHastaReserva())) ||
+                (request.getFechaHoraDesdeReserva().isBefore(reserva.getFechaHoraDesdeReserva()) && request.getFechaHoraHastaReserva().isAfter(reserva.getFechaHoraHastaReserva())) ||
+                (request.getFechaHoraDesdeReserva().isEqual(reserva.getFechaHoraDesdeReserva()) && request.getFechaHoraHastaReserva().isEqual(reserva.getFechaHoraHastaReserva()));
+    }
+
+    private ReservaDTO buildReservaDTO(Reserva reserva) {
+        return new ReservaDTO(
+                reserva.getId(),
+                reserva.getFechaHoraDesdeReserva(),
+                reserva.getFechaHoraHastaReserva(),
+                reserva.getFechaCreacion(),
+                reserva.getMotivoRechazo(),
+                reserva.getMotivoReserva(),
+                reserva.getEstado(),
+                reserva.getEspacioFisico(),
+                new ClienteDTO(
+                        reserva.getCliente().getNombre(),
+                        reserva.getCliente().getApellido()
+                )
+        );
     }
 }
