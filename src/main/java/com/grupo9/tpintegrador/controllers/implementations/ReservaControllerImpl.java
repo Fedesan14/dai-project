@@ -2,6 +2,7 @@ package com.grupo9.tpintegrador.controllers.implementations;
 
 import com.grupo9.tpintegrador.controllers.interfaces.IReservaController;
 import com.grupo9.tpintegrador.controllers.requests.reservas.CreateReservaRequest;
+import com.grupo9.tpintegrador.controllers.responses.reservas.ReservaDTO;
 import com.grupo9.tpintegrador.data.models.Reserva;
 import com.grupo9.tpintegrador.services.interfaces.IReservaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ public class ReservaControllerImpl implements IReservaController {
     IReservaService reservaService;
 
     @Override
-    public Reserva createReserva(CreateReservaRequest request) {
+    public ReservaDTO createReserva(CreateReservaRequest request) {
         return reservaService.createReserva(request);
     }
 

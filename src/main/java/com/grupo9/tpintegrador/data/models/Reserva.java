@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -19,7 +20,9 @@ public class Reserva {
     @Id
     private UUID id = UUID.randomUUID();
     @Column(nullable = false)
-    private LocalDate fechaReserva;
+    private LocalDateTime fechaHoraDesdeReserva;
+    @Column(nullable = false)
+    private LocalDateTime fechaHoraHastaReserva;
     @Column(nullable = false)
     private LocalDate fechaCreacion;
     private String motivoRechazo;
@@ -32,8 +35,9 @@ public class Reserva {
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
-    public Reserva(LocalDate fechaReserva, LocalDate fechaCreacion, String motivoReserva, Estado estado, EspacioFisico espacioFisico, Cliente cliente) {
-        this.fechaReserva = fechaReserva;
+    public Reserva(LocalDateTime fechaHoraDesdeReserva, LocalDateTime fechaHoraHastaReserva, LocalDate fechaCreacion, String motivoReserva, Estado estado, EspacioFisico espacioFisico, Cliente cliente) {
+        this.fechaHoraDesdeReserva = fechaHoraDesdeReserva;
+        this.fechaHoraHastaReserva = fechaHoraHastaReserva;
         this.fechaCreacion = fechaCreacion;
         this.motivoReserva = motivoReserva;
         this.estado = estado;

@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -13,7 +14,8 @@ import java.time.LocalDate;
 @Getter
 public class CreateReservaRequest {
 
-    private LocalDate fechaReserva;
+    private LocalDateTime fechaHoraDesdeReserva;
+    private LocalDateTime fechaHoraHastaReserva;
     private LocalDate fechaCreacion;
     private String motivoRechazo;
     private String motivoReserva;

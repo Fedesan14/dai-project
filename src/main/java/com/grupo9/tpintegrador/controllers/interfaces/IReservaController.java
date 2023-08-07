@@ -1,6 +1,7 @@
 package com.grupo9.tpintegrador.controllers.interfaces;
 
 import com.grupo9.tpintegrador.controllers.requests.reservas.CreateReservaRequest;
+import com.grupo9.tpintegrador.controllers.responses.reservas.ReservaDTO;
 import com.grupo9.tpintegrador.data.models.Reserva;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +16,7 @@ public interface IReservaController {
 
     @PostMapping
     @ResponseStatus(CREATED)
-    Reserva createReserva(@RequestBody CreateReservaRequest request);
+    ReservaDTO createReserva(@RequestBody CreateReservaRequest request);
 
     @GetMapping
     @ResponseStatus(OK)
