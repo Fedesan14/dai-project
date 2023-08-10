@@ -3,6 +3,7 @@ package com.grupo9.tpintegrador.services.implementations;
 import com.grupo9.tpintegrador.controllers.requests.reservas.CreateReservaRequest;
 import com.grupo9.tpintegrador.controllers.responses.clientes.ClienteDTO;
 import com.grupo9.tpintegrador.controllers.responses.reservas.ReservaDTO;
+import com.grupo9.tpintegrador.data.models.EspacioFisico;
 import com.grupo9.tpintegrador.data.models.Reserva;
 import com.grupo9.tpintegrador.data.repositories.IReservaRepository;
 import com.grupo9.tpintegrador.services.interfaces.IClientService;
@@ -36,7 +37,12 @@ public class ReservaServiceImpl implements IReservaService {
     @Override
     public ReservaDTO createReserva(CreateReservaRequest request) {
 
-        List<Reserva> reservas = reservaRepository.findAll();
+        if(request.getFechaHoraDesdeReserva().isAfter(request.getFechaHoraHastaReserva())){
+            throw new ResponseStatusException(BAD_REQUEST, "La fecha desde debe ser menor a la fecha hasta");
+        }
+
+        EspacioFisico espacioFisico = espacioFisicoService.getEspacioFisico(request.getEspacioFisicoId());
+        List<Reserva> reservas = reservaRepository.findAllByEspacioFisico(espacioFisico);
 
         reservas.forEach(reserva -> {
             if (coincideConOtraReserva(request, reserva)) {
@@ -51,7 +57,7 @@ public class ReservaServiceImpl implements IReservaService {
                                 LocalDate.now(),
                                 request.getMotivoReserva(),
                                 estadoService.getCreatedState(),
-                                espacioFisicoService.getEspacioFisico(request.getEspacioFisicoId()),
+                                espacioFisico,
                                 clientService.getClientById(request.getClienteId())
 
                         )
