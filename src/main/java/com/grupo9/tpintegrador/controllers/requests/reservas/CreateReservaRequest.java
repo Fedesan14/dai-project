@@ -22,4 +22,13 @@ public class CreateReservaRequest {
     private String espacioFisicoId;
     private String clienteId;
 
+    @Override
+    public String toString() {
+        return "CreateReservaRequest{" +
+                "fechaHoraDesdeReserva=" + fechaHoraDesdeReserva +
+                ", fechaHoraHastaReserva=" + fechaHoraHastaReserva +
+                ", fechaCreacion=" + fechaCreacion +
+                '}';
+    }
+
 }

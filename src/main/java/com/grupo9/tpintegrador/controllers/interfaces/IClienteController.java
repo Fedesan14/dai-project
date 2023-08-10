@@ -11,6 +11,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
 @RequestMapping("/clients")
+@CrossOrigin
 public interface IClienteController {
 
     @PostMapping

@@ -18,6 +18,7 @@ public class ReservaControllerImpl implements IReservaController {
 
     @Override
     public ReservaDTO createReserva(CreateReservaRequest request) {
+        System.out.println(request);
         return reservaService.createReserva(request);
     }
 
