@@ -4,6 +4,7 @@ import com.grupo9.tpintegrador.controllers.requests.reservas.CreateReservaReques
 import com.grupo9.tpintegrador.controllers.responses.clientes.ClienteDTO;
 import com.grupo9.tpintegrador.controllers.responses.reservas.ReservaDTO;
 import com.grupo9.tpintegrador.data.models.EspacioFisico;
+import com.grupo9.tpintegrador.data.models.RecursoTecnologico;
 import com.grupo9.tpintegrador.data.models.Reserva;
 import com.grupo9.tpintegrador.data.repositories.IReservaRepository;
 import com.grupo9.tpintegrador.services.interfaces.IClientService;
@@ -68,6 +69,31 @@ public class ReservaServiceImpl implements IReservaService {
         ));
     }
 
+    @Override
+    public ReservaDTO updateReserva(CreateReservaRequest request, String id) {
+        Reserva foundReserva = getReservaById(id);
+
+        if(request.getFechaHoraDesdeReserva().after(request.getFechaHoraHastaReserva())){
+            throw new ResponseStatusException(BAD_REQUEST, "La fecha desde debe ser menor a la fecha hasta");
+        }
+
+        EspacioFisico espacioFisico = espacioFisicoService.getEspacioFisico(request.getEspacioFisicoId());
+        List<Reserva> reservas = reservaRepository.findAllByEspacioFisico(espacioFisico);
+
+        reservas.forEach(reserva -> {
+            if (coincideConOtraReserva(request, reserva) && reserva.getId() != foundReserva.getId()) {
+                throw new ResponseStatusException(BAD_REQUEST, "Ya existe una reserva para la fecha y horas ingresadas.");
+            }
+        });
+
+        foundReserva.setFechaHoraDesdeReserva(request.getFechaHoraDesdeReserva());
+        foundReserva.setFechaHoraHastaReserva(request.getFechaHoraHastaReserva());
+        foundReserva.setMotivoReserva(request.getMotivoReserva());
+        foundReserva.setEspacioFisico(espacioFisico);
+        foundReserva.setCliente(clientService.getClientById(request.getClienteId()));
+
+        return buildReservaDTO(reservaRepository.save(foundReserva));
+    }
     @Override
     public Page<ReservaDTO> getReservas(String nombre, Pageable pageable) {
         Page<Reserva> page = reservaRepository.findAllByNombreCliente(nombre, pageable);

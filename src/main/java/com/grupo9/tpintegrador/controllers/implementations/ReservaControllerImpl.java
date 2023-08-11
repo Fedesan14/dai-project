@@ -22,6 +22,11 @@ public class ReservaControllerImpl implements IReservaController {
     }
 
     @Override
+    public ReservaDTO updateReserva(CreateReservaRequest request, String id) {
+        return reservaService.updateReserva(request, id);
+    }
+
+    @Override
     public Page<ReservaDTO> getReservas(String nombre, Pageable pageable) {
         return reservaService.getReservas(nombre, pageable);
     }

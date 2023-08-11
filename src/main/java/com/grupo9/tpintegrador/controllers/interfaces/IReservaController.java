@@ -21,6 +21,10 @@ public interface IReservaController {
     @ResponseStatus(CREATED)
     ReservaDTO createReserva(@RequestBody CreateReservaRequest request);
 
+    @PutMapping("/{id}")
+    @ResponseStatus(OK)
+    ReservaDTO updateReserva(@RequestBody CreateReservaRequest request, @PathVariable String id);
+
     @GetMapping
     @ResponseStatus(OK)
     Page<ReservaDTO> getReservas(
