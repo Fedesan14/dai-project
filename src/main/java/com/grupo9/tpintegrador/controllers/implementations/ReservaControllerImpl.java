@@ -22,8 +22,8 @@ public class ReservaControllerImpl implements IReservaController {
     }
 
     @Override
-    public Page<ReservaDTO> getReservas(String nombre, Pageable pageable) {
-        return reservaService.getReservas(nombre, pageable);
+    public Page<ReservaDTO> getReservas(String cliente, String espacio, Pageable pageable) {
+        return reservaService.getReservas(cliente, espacio, pageable);
     }
 
     @Override

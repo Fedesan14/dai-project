@@ -8,8 +8,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
@@ -24,7 +22,8 @@ public interface IReservaController {
     @GetMapping
     @ResponseStatus(OK)
     Page<ReservaDTO> getReservas(
-            @RequestParam(required = false) String nombre,
+            @RequestParam(required = false) String cliente,
+            @RequestParam(required = false) String espacio,
             @ParameterObject Pageable pageable
     );
 

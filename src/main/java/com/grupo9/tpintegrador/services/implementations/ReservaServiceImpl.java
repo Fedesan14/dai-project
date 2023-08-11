@@ -69,8 +69,8 @@ public class ReservaServiceImpl implements IReservaService {
     }
 
     @Override
-    public Page<ReservaDTO> getReservas(String nombre, Pageable pageable) {
-        Page<Reserva> page = reservaRepository.findAllByNombreCliente(nombre, pageable);
+    public Page<ReservaDTO> getReservas(String nombre, String espacio, Pageable pageable) {
+        Page<Reserva> page = reservaRepository.findAllByNombreClienteAndEspacio(nombre, espacio, pageable);
         List<ReservaDTO> reservas = page.stream().map(
                 reserva -> buildReservaDTO(reserva)
         ).collect(Collectors.toList());

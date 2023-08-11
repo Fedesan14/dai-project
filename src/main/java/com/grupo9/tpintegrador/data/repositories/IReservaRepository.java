@@ -18,8 +18,8 @@ import java.util.UUID;
 public interface IReservaRepository extends JpaRepository<Reserva, UUID> {
     Optional<Reserva> findByFechaHoraDesdeReserva(LocalDateTime fechaHoraDesdeReserva);
 
-    @Query("SELECT r FROM Reserva r WHERE (:nombre is null OR r.cliente.nombre LIKE CONCAT('%', :nombre, '%'))")
-    Page<Reserva> findAllByNombreCliente(@Param("nombre") String nombre, Pageable pageable);
+    @Query("SELECT r FROM Reserva r WHERE (:nombre is null OR r.cliente.nombre LIKE CONCAT('%', :nombre, '%')) AND (:espacio is null OR r.espacioFisico.nombre LIKE CONCAT('%', :espacio, '%'))")
+    Page<Reserva> findAllByNombreClienteAndEspacio(@Param("nombre") String nombre, String espacio, Pageable pageable);
 
     List<Reserva> findAllByEspacioFisico(EspacioFisico espacioFisico);
 }
