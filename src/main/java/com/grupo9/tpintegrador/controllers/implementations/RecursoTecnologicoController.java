@@ -28,7 +28,6 @@ public class RecursoTecnologicoController implements IRecursoTecnologicoControll
             String nombre,
             Pageable pageable
     ) {
-        System.out.println(pageable);
         return recursoTecnologicoService.getRecursosTecnologicos(nombre, pageable);
     }
 

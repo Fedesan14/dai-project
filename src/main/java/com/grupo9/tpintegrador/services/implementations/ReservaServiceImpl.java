@@ -11,12 +11,16 @@ import com.grupo9.tpintegrador.services.interfaces.IEspacioFisicoService;
 import com.grupo9.tpintegrador.services.interfaces.IEstadoService;
 import com.grupo9.tpintegrador.services.interfaces.IReservaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
@@ -65,8 +69,13 @@ public class ReservaServiceImpl implements IReservaService {
     }
 
     @Override
-    public List<Reserva> getReservas() {
-        return reservaRepository.findAll();
+    public Page<ReservaDTO> getReservas(String nombre, Pageable pageable) {
+        Page<Reserva> page = reservaRepository.findAllByNombreCliente(nombre, pageable);
+        List<ReservaDTO> reservas = page.stream().map(
+                reserva -> buildReservaDTO(reserva)
+        ).collect(Collectors.toList());
+
+        return new PageImpl<>(reservas, page.getPageable(), page.getTotalElements());
     }
 
     @Override

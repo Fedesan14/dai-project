@@ -3,7 +3,9 @@ package com.grupo9.tpintegrador.controllers.interfaces;
 import com.grupo9.tpintegrador.controllers.requests.reservas.CreateReservaRequest;
 import com.grupo9.tpintegrador.controllers.responses.reservas.ReservaDTO;
 import com.grupo9.tpintegrador.data.models.Reserva;
-import org.springframework.http.HttpStatus;
+import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,7 +23,10 @@ public interface IReservaController {
 
     @GetMapping
     @ResponseStatus(OK)
-    List<Reserva> getReservas();
+    Page<ReservaDTO> getReservas(
+            @RequestParam(required = false) String nombre,
+            @ParameterObject Pageable pageable
+    );
 
     @GetMapping("/{id}")
     @ResponseStatus(OK)
