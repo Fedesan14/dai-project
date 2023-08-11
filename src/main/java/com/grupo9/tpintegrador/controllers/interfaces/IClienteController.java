@@ -1,6 +1,7 @@
 package com.grupo9.tpintegrador.controllers.interfaces;
 
 import com.grupo9.tpintegrador.controllers.requests.clients.SaveClientRequest;
+import com.grupo9.tpintegrador.controllers.responses.clientes.ClienteDTO;
 import com.grupo9.tpintegrador.data.models.Cliente;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
@@ -11,6 +12,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
 @RequestMapping("/clients")
+@CrossOrigin
 public interface IClienteController {
 
     @PostMapping
@@ -20,7 +22,7 @@ public interface IClienteController {
     @GetMapping
     @ResponseStatus(OK)
 
-    Page<Cliente> getClients(
+    Page<ClienteDTO> getClients(
             @RequestParam(required = false) String dni,
             @RequestParam(required = false) String correo,
             @ParameterObject Pageable pageable

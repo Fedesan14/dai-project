@@ -11,13 +11,16 @@ import com.grupo9.tpintegrador.services.interfaces.IEspacioFisicoService;
 import com.grupo9.tpintegrador.services.interfaces.IEstadoService;
 import com.grupo9.tpintegrador.services.interfaces.IReservaService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
@@ -37,7 +40,7 @@ public class ReservaServiceImpl implements IReservaService {
     @Override
     public ReservaDTO createReserva(CreateReservaRequest request) {
 
-        if(request.getFechaHoraDesdeReserva().isAfter(request.getFechaHoraHastaReserva())){
+        if(request.getFechaHoraDesdeReserva().after(request.getFechaHoraHastaReserva())){
             throw new ResponseStatusException(BAD_REQUEST, "La fecha desde debe ser menor a la fecha hasta");
         }
 
@@ -66,11 +69,45 @@ public class ReservaServiceImpl implements IReservaService {
     }
 
     @Override
-    public List<Reserva> getReservas() {
-        return reservaRepository.findAll();
+    public ReservaDTO updateReserva(CreateReservaRequest request, String id) {
+        Reserva foundReserva = getReservaById(id);
+
+        if(request.getFechaHoraDesdeReserva().after(request.getFechaHoraHastaReserva())){
+            throw new ResponseStatusException(BAD_REQUEST, "La fecha desde debe ser menor a la fecha hasta");
+        }
+
+        EspacioFisico espacioFisico = espacioFisicoService.getEspacioFisico(request.getEspacioFisicoId());
+        List<Reserva> reservas = reservaRepository.findAllByEspacioFisico(espacioFisico);
+
+        reservas.forEach(reserva -> {
+            if (coincideConOtraReserva(request, reserva) && reserva.getId() != foundReserva.getId()) {
+                throw new ResponseStatusException(BAD_REQUEST, "Ya existe una reserva para la fecha y horas ingresadas.");
+            }
+        });
+
+        foundReserva.setFechaHoraDesdeReserva(request.getFechaHoraDesdeReserva());
+        foundReserva.setFechaHoraHastaReserva(request.getFechaHoraHastaReserva());
+        foundReserva.setMotivoReserva(request.getMotivoReserva());
+        foundReserva.setEspacioFisico(espacioFisico);
+        foundReserva.setCliente(clientService.getClientById(request.getClienteId()));
+
+        return buildReservaDTO(reservaRepository.save(foundReserva));
+    }
+    @Override
+    public Page<ReservaDTO> getReservas(String nombre, String espacio, Pageable pageable) {
+        Page<Reserva> page = reservaRepository.findAllByNombreClienteAndEspacio(nombre, espacio, pageable);
+        List<ReservaDTO> reservas = page.stream().map(
+                reserva -> buildReservaDTO(reserva)
+        ).collect(Collectors.toList());
+
+        return new PageImpl<>(reservas, page.getPageable(), page.getTotalElements());
     }
 
     @Override
+    public ReservaDTO getReservaDTOById(String id) {
+        return buildReservaDTO(getReservaById(id));
+    }
+
     public Reserva getReservaById(String id) {
         return reservaRepository.findById(UUID.fromString(id))
                 .orElseThrow(() -> new ResponseStatusException(BAD_REQUEST, "No se encontró la reserva con el id " + id));
@@ -85,10 +122,10 @@ public class ReservaServiceImpl implements IReservaService {
     }
 
     private static boolean coincideConOtraReserva(CreateReservaRequest request, Reserva reserva) {
-        return (request.getFechaHoraHastaReserva().isAfter(reserva.getFechaHoraDesdeReserva()) && request.getFechaHoraHastaReserva().isBefore(reserva.getFechaHoraHastaReserva())) ||
-                (request.getFechaHoraDesdeReserva().isAfter(reserva.getFechaHoraDesdeReserva()) && request.getFechaHoraDesdeReserva().isBefore(reserva.getFechaHoraHastaReserva())) ||
-                (request.getFechaHoraDesdeReserva().isBefore(reserva.getFechaHoraDesdeReserva()) && request.getFechaHoraHastaReserva().isAfter(reserva.getFechaHoraHastaReserva())) ||
-                (request.getFechaHoraDesdeReserva().isEqual(reserva.getFechaHoraDesdeReserva()) && request.getFechaHoraHastaReserva().isEqual(reserva.getFechaHoraHastaReserva()));
+        return (request.getFechaHoraHastaReserva().after(reserva.getFechaHoraDesdeReserva()) && request.getFechaHoraHastaReserva().before(reserva.getFechaHoraHastaReserva())) ||
+                (request.getFechaHoraDesdeReserva().after(reserva.getFechaHoraDesdeReserva()) && request.getFechaHoraDesdeReserva().before(reserva.getFechaHoraHastaReserva())) ||
+                (request.getFechaHoraDesdeReserva().before(reserva.getFechaHoraDesdeReserva()) && request.getFechaHoraHastaReserva().after(reserva.getFechaHoraHastaReserva())) ||
+                (request.getFechaHoraDesdeReserva().equals(reserva.getFechaHoraDesdeReserva()) && request.getFechaHoraHastaReserva().equals(reserva.getFechaHoraHastaReserva()));
     }
 
     private ReservaDTO buildReservaDTO(Reserva reserva) {
@@ -102,6 +139,7 @@ public class ReservaServiceImpl implements IReservaService {
                 reserva.getEstado(),
                 reserva.getEspacioFisico(),
                 new ClienteDTO(
+                        reserva.getCliente().getId().toString(),
                         reserva.getCliente().getNombre(),
                         reserva.getCliente().getApellido()
                 )

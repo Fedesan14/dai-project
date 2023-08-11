@@ -7,6 +7,7 @@ import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -15,8 +16,8 @@ import java.util.UUID;
 @Setter
 public class ReservaDTO {
     private UUID id;
-    private LocalDateTime fechaHoraDesdeReserva;
-    private LocalDateTime fechaHoraHastaReserva;
+    private Date fechaHoraDesdeReserva;
+    private Date fechaHoraHastaReserva;
     private LocalDate fechaCreacion;
     private String motivoRechazo;
     private String motivoReserva;
