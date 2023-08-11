@@ -32,8 +32,8 @@ public class ReservaControllerImpl implements IReservaController {
     }
 
     @Override
-    public Reserva getReservaById(String id) {
-        return reservaService.getReservaById(id);
+    public ReservaDTO getReservaById(String id) {
+        return reservaService.getReservaDTOById(id);
     }
 
     @Override

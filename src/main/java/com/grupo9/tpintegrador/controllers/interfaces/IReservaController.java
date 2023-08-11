@@ -34,7 +34,7 @@ public interface IReservaController {
 
     @GetMapping("/{id}")
     @ResponseStatus(OK)
-    Reserva getReservaById(@PathVariable String id);
+    ReservaDTO getReservaById(@PathVariable String id);
 
     @DeleteMapping("/{id}")
     @ResponseStatus(OK)

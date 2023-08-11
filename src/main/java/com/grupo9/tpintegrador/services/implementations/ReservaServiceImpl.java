@@ -105,9 +105,13 @@ public class ReservaServiceImpl implements IReservaService {
     }
 
     @Override
+    public ReservaDTO getReservaDTOById(String id) {
+        return buildReservaDTO(getReservaById(id));
+    }
+
     public Reserva getReservaById(String id) {
         return reservaRepository.findById(UUID.fromString(id))
-                .orElseThrow(() -> new ResponseStatusException(BAD_REQUEST, "No se encontró la reserva con el id " + id));
+                        .orElseThrow(() -> new ResponseStatusException(BAD_REQUEST, "No se encontró la reserva con el id " + id));
     }
 
     @Override

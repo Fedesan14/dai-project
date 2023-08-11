@@ -15,6 +15,7 @@ public interface IReservaService {
     ReservaDTO createReserva(@RequestBody CreateReservaRequest request);
     Page<ReservaDTO> getReservas(String nombre, Pageable pageable);
     ReservaDTO updateReserva(@RequestBody CreateReservaRequest request, String id);
+    ReservaDTO getReservaDTOById(@PathVariable String id);
     Reserva getReservaById(@PathVariable String id);
     void deleteReserva(@PathVariable String id);
 
