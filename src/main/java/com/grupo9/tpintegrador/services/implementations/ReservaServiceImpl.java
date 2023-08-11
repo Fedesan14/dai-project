@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -36,7 +38,6 @@ public class ReservaServiceImpl implements IReservaService {
 
     @Override
     public ReservaDTO createReserva(CreateReservaRequest request) {
-
         if(request.getFechaHoraDesdeReserva().isAfter(request.getFechaHoraHastaReserva())){
             throw new ResponseStatusException(BAD_REQUEST, "La fecha desde debe ser menor a la fecha hasta");
         }
@@ -102,6 +103,7 @@ public class ReservaServiceImpl implements IReservaService {
                 reserva.getEstado(),
                 reserva.getEspacioFisico(),
                 new ClienteDTO(
+                        reserva.getCliente().getId().toString(),
                         reserva.getCliente().getNombre(),
                         reserva.getCliente().getApellido()
                 )

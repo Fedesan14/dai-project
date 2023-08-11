@@ -1,5 +1,6 @@
 package com.grupo9.tpintegrador.controllers.requests.reservas;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +17,6 @@ public class CreateReservaRequest {
 
     private LocalDateTime fechaHoraDesdeReserva;
     private LocalDateTime fechaHoraHastaReserva;
-    private LocalDate fechaCreacion;
     private String motivoRechazo;
     private String motivoReserva;
     private String espacioFisicoId;
@@ -27,7 +27,6 @@ public class CreateReservaRequest {
         return "CreateReservaRequest{" +
                 "fechaHoraDesdeReserva=" + fechaHoraDesdeReserva +
                 ", fechaHoraHastaReserva=" + fechaHoraHastaReserva +
-                ", fechaCreacion=" + fechaCreacion +
                 '}';
     }
 
