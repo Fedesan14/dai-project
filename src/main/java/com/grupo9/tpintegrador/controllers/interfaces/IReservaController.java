@@ -19,6 +19,10 @@ public interface IReservaController {
     @ResponseStatus(CREATED)
     ReservaDTO createReserva(@RequestBody CreateReservaRequest request);
 
+    @PutMapping("/{id}")
+    @ResponseStatus(OK)
+    ReservaDTO updateReserva(@RequestBody CreateReservaRequest request, @PathVariable String id);
+
     @GetMapping
     @ResponseStatus(OK)
     Page<ReservaDTO> getReservas(
@@ -29,7 +33,7 @@ public interface IReservaController {
 
     @GetMapping("/{id}")
     @ResponseStatus(OK)
-    Reserva getReservaById(@PathVariable String id);
+    ReservaDTO getReservaById(@PathVariable String id);
 
     @DeleteMapping("/{id}")
     @ResponseStatus(OK)

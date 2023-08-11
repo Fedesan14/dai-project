@@ -69,6 +69,31 @@ public class ReservaServiceImpl implements IReservaService {
     }
 
     @Override
+    public ReservaDTO updateReserva(CreateReservaRequest request, String id) {
+        Reserva foundReserva = getReservaById(id);
+
+        if(request.getFechaHoraDesdeReserva().after(request.getFechaHoraHastaReserva())){
+            throw new ResponseStatusException(BAD_REQUEST, "La fecha desde debe ser menor a la fecha hasta");
+        }
+
+        EspacioFisico espacioFisico = espacioFisicoService.getEspacioFisico(request.getEspacioFisicoId());
+        List<Reserva> reservas = reservaRepository.findAllByEspacioFisico(espacioFisico);
+
+        reservas.forEach(reserva -> {
+            if (coincideConOtraReserva(request, reserva) && reserva.getId() != foundReserva.getId()) {
+                throw new ResponseStatusException(BAD_REQUEST, "Ya existe una reserva para la fecha y horas ingresadas.");
+            }
+        });
+
+        foundReserva.setFechaHoraDesdeReserva(request.getFechaHoraDesdeReserva());
+        foundReserva.setFechaHoraHastaReserva(request.getFechaHoraHastaReserva());
+        foundReserva.setMotivoReserva(request.getMotivoReserva());
+        foundReserva.setEspacioFisico(espacioFisico);
+        foundReserva.setCliente(clientService.getClientById(request.getClienteId()));
+
+        return buildReservaDTO(reservaRepository.save(foundReserva));
+    }
+    @Override
     public Page<ReservaDTO> getReservas(String nombre, String espacio, Pageable pageable) {
         Page<Reserva> page = reservaRepository.findAllByNombreClienteAndEspacio(nombre, espacio, pageable);
         List<ReservaDTO> reservas = page.stream().map(
@@ -79,6 +104,10 @@ public class ReservaServiceImpl implements IReservaService {
     }
 
     @Override
+    public ReservaDTO getReservaDTOById(String id) {
+        return buildReservaDTO(getReservaById(id));
+    }
+
     public Reserva getReservaById(String id) {
         return reservaRepository.findById(UUID.fromString(id))
                 .orElseThrow(() -> new ResponseStatusException(BAD_REQUEST, "No se encontró la reserva con el id " + id));
