@@ -18,6 +18,7 @@ public class ClienteControllerImpl implements IClienteController {
 
     @Override
     public Cliente createNewClient(SaveClientRequest request) {
+
         return clientService.createNewClient(request);
     }
 

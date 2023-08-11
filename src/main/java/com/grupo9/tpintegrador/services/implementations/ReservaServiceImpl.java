@@ -11,13 +11,10 @@ import com.grupo9.tpintegrador.services.interfaces.IEspacioFisicoService;
 import com.grupo9.tpintegrador.services.interfaces.IEstadoService;
 import com.grupo9.tpintegrador.services.interfaces.IReservaService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -38,7 +35,8 @@ public class ReservaServiceImpl implements IReservaService {
 
     @Override
     public ReservaDTO createReserva(CreateReservaRequest request) {
-        if(request.getFechaHoraDesdeReserva().isAfter(request.getFechaHoraHastaReserva())){
+
+        if(request.getFechaHoraDesdeReserva().after(request.getFechaHoraHastaReserva())){
             throw new ResponseStatusException(BAD_REQUEST, "La fecha desde debe ser menor a la fecha hasta");
         }
 
@@ -86,10 +84,10 @@ public class ReservaServiceImpl implements IReservaService {
     }
 
     private static boolean coincideConOtraReserva(CreateReservaRequest request, Reserva reserva) {
-        return (request.getFechaHoraHastaReserva().isAfter(reserva.getFechaHoraDesdeReserva()) && request.getFechaHoraHastaReserva().isBefore(reserva.getFechaHoraHastaReserva())) ||
-                (request.getFechaHoraDesdeReserva().isAfter(reserva.getFechaHoraDesdeReserva()) && request.getFechaHoraDesdeReserva().isBefore(reserva.getFechaHoraHastaReserva())) ||
-                (request.getFechaHoraDesdeReserva().isBefore(reserva.getFechaHoraDesdeReserva()) && request.getFechaHoraHastaReserva().isAfter(reserva.getFechaHoraHastaReserva())) ||
-                (request.getFechaHoraDesdeReserva().isEqual(reserva.getFechaHoraDesdeReserva()) && request.getFechaHoraHastaReserva().isEqual(reserva.getFechaHoraHastaReserva()));
+        return (request.getFechaHoraHastaReserva().after(reserva.getFechaHoraDesdeReserva()) && request.getFechaHoraHastaReserva().before(reserva.getFechaHoraHastaReserva())) ||
+                (request.getFechaHoraDesdeReserva().after(reserva.getFechaHoraDesdeReserva()) && request.getFechaHoraDesdeReserva().before(reserva.getFechaHoraHastaReserva())) ||
+                (request.getFechaHoraDesdeReserva().before(reserva.getFechaHoraDesdeReserva()) && request.getFechaHoraHastaReserva().after(reserva.getFechaHoraHastaReserva())) ||
+                (request.getFechaHoraDesdeReserva().equals(reserva.getFechaHoraDesdeReserva()) && request.getFechaHoraHastaReserva().equals(reserva.getFechaHoraHastaReserva()));
     }
 
     private ReservaDTO buildReservaDTO(Reserva reserva) {
