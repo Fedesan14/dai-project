@@ -1,5 +1,6 @@
 package com.grupo9.tpintegrador.controllers.responses.reservas;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.grupo9.tpintegrador.controllers.responses.clientes.ClienteDTO;
 import com.grupo9.tpintegrador.data.models.EspacioFisico;
 import com.grupo9.tpintegrador.data.models.Estado;
@@ -16,7 +17,9 @@ import java.util.UUID;
 @Setter
 public class ReservaDTO {
     private UUID id;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "UTC")
     private Date fechaHoraDesdeReserva;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "UTC")
     private Date fechaHoraHastaReserva;
     private LocalDate fechaCreacion;
     private String motivoRechazo;
