@@ -4,10 +4,13 @@ import com.grupo9.tpintegrador.controllers.requests.espacios.EspacioFisicoReques
 import com.grupo9.tpintegrador.data.models.EspacioFisico;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
+
 public interface IEspacioFisicoService {
     EspacioFisico saveEspacioFisico(EspacioFisicoRequest request);
 
     Page<EspacioFisico> getEspaciosFisicos(int page, int size, String sort, String order);
+    List<EspacioFisico> getEspaciosFisicosHabilitados();
 
     void deleteEspacioFisico(String id);
 

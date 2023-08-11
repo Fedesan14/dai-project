@@ -61,6 +61,10 @@ public class EspacioFisicoService implements IEspacioFisicoService {
     }
 
     @Override
+    public List<EspacioFisico> getEspaciosFisicosHabilitados() {
+        return espacioFisicoRepository.findByHabilitadoTrue();
+    }
+    @Override
     public void deleteEspacioFisico(String id) {
         EspacioFisico espacioFisico = getEspacioFisico(id);
         espacioFisicoRepository.delete(espacioFisico);

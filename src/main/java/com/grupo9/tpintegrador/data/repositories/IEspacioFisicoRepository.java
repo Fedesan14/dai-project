@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.UUID;
 
 @Repository
@@ -15,4 +16,6 @@ public interface IEspacioFisicoRepository extends PagingAndSortingRepository<Esp
     Page<EspacioFisico> findByNombreIgnoreCaseContains(String nombre, Pageable pageable);
     Page<EspacioFisico> findByCapacidad(int capacidad, Pageable pageable);
     Page<EspacioFisico> findAll(Pageable pageable);
+
+    List<EspacioFisico> findByHabilitadoTrue();
 }
