@@ -2,7 +2,6 @@ package com.grupo9.tpintegrador.controllers.interfaces;
 
 import com.grupo9.tpintegrador.controllers.requests.reservas.CreateReservaRequest;
 import com.grupo9.tpintegrador.controllers.responses.reservas.ReservaDTO;
-import com.grupo9.tpintegrador.data.models.Reserva;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

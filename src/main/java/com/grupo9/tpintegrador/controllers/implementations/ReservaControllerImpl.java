@@ -3,7 +3,6 @@ package com.grupo9.tpintegrador.controllers.implementations;
 import com.grupo9.tpintegrador.controllers.interfaces.IReservaController;
 import com.grupo9.tpintegrador.controllers.requests.reservas.CreateReservaRequest;
 import com.grupo9.tpintegrador.controllers.responses.reservas.ReservaDTO;
-import com.grupo9.tpintegrador.data.models.Reserva;
 import com.grupo9.tpintegrador.services.interfaces.IReservaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,8 +26,8 @@ public class ReservaControllerImpl implements IReservaController {
     }
 
     @Override
-    public Page<ReservaDTO> getReservas(String cliente, String espacio, Pageable pageable) {
-        return reservaService.getReservas(cliente, espacio, pageable);
+    public Page<ReservaDTO> getReservas(String cliente, String apellido, Pageable pageable) {
+        return reservaService.getReservas(cliente, apellido, pageable);
     }
 
     @Override

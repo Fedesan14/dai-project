@@ -5,6 +5,8 @@ import com.grupo9.tpintegrador.data.models.EspacioFisico;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
@@ -21,6 +23,10 @@ public interface IEspacioFisicoController {
                                            @RequestParam("size") int size,
                                            @RequestParam("sort") String sort,
                                            @RequestParam("order") String order);
+
+    @GetMapping("/habilitados")
+    @ResponseStatus(OK)
+    List<EspacioFisico> getEspaciosFisicosHabilitados();
 
     @GetMapping(params = {"nombre","capacidad","page","size","sort","order"})
     @ResponseStatus(OK)

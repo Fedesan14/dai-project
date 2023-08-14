@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController()
 @CrossOrigin
 public class EspacioFisicoController implements IEspacioFisicoController {
@@ -23,6 +25,11 @@ public class EspacioFisicoController implements IEspacioFisicoController {
     @Override
     public Page<EspacioFisico> getEspaciosFisicos(int page, int size, String sort, String order) {
         return espacioFisicoService.getEspaciosFisicos(page, size, sort, order);
+    }
+
+    @Override
+    public List<EspacioFisico> getEspaciosFisicosHabilitados() {
+        return espacioFisicoService.getEspaciosFisicosHabilitados();
     }
 
     @Override
